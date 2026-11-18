@@ -1,0 +1,49 @@
+============================================================================================
+SUITE DE VALIDACIÓN: RECOMENDADOR DE DOCUMENTOS TOP-K (SIMILITUD DEL COSENO)
+============================================================================================
+
+[PRUEBA 1 - Documento Semilla de Politicas/Procesos]
+Entrada (ID) : DOC001 — 'Política de Trabajo Remoto y Esquema Híbrido' (Politicas/Procesos)
+Contenido    : Los empleados pueden trabajar de forma remota hasta tres días por semana con aprobación de su gerente directo. El horario núcleo de colaboración es de 10:00 a 15:00 horas. Los trabajadores remotos deben mantener un espacio seguro, utilizar la VPN corporativa para acceder a sistemas internos y contar con conexión estable a internet.
+--------------------------------------------------------------------------------------------
+Pos.  | ID      | Similitud | Categoría             | Título
+--------------------------------------------------------------------------------------------
+1     | DOC006  | 0.0540    | Politicas/Procesos    | Proceso de Solicitud de Vacaciones y Días Libres
+2     | DOC013  | 0.0505    | Soporte/Incidentes    | Incidente INC-401: Errores de Tiempo Agotado en Autenticación VPN
+3     | DOC007  | 0.0495    | Politicas/Procesos    | Política de Incapacidades Médicas y Ausencias por Salud
+4     | DOC012  | 0.0351    | Politicas/Procesos    | Política de Seguridad para Dispositivos Personales (BYOD)
+5     | DOC026  | 0.0267    | Ingenieria/Operaciones | Manual de Despliegue Sin Interrupciones para Microservicios
+--------------------------------------------------------------------------------------------
+Comentario de coherencia:
+Coherente. El sistema excluye correctamente el documento semilla (DOC001) y recupera normativas laborales relacionadas con permisos y ausencias (DOC006, DOC007), el incidente de fallos de conexión VPN en trabajo remoto (DOC013) y seguridad de dispositivos móviles (DOC012). Los puntajes moderados (~0.05) ilustran la sensibilidad de TF-IDF ante variantes léxicas (por ejemplo, "trabajo remoto" frente a "conexiones remotas").
+
+
+[PRUEBA 2 - Documento Semilla de Soporte/Incidentes]
+Entrada (ID) : DOC017 — 'Incidente INC-408: Alto Consumo de CPU y Consultas Lentas en Base de Datos' (Soporte/Incidentes)
+Contenido    : La latencia en el proceso de pago aumentó debido a un 98% de uso de CPU en la base de datos PostgreSQL de producción. El registro de consultas lentas detectó un escaneo completo sin índice en la tabla de pedidos. Crear un índice compuesto redujo el uso de CPU al 25%.
+--------------------------------------------------------------------------------------------
+Pos.  | ID      | Similitud | Categoría             | Título
+--------------------------------------------------------------------------------------------
+1     | DOC024  | 0.1167    | Soporte/Incidentes    | Incidente INC-430: Fallo en Respaldo Nocturno Automatizado de Base de Datos
+2     | DOC025  | 0.0932    | Ingenieria/Operaciones | Guía Operativa de Indexación y Optimización de Consultas SQL
+3     | DOC020  | 0.0341    | Soporte/Incidentes    | Incidente INC-419: Retraso en Entrega de Correo Electrónico Externo
+4     | DOC010  | 0.0242    | Politicas/Procesos    | Clasificación de Datos y Manejo de Información Confidencial
+5     | DOC026  | 0.0240    | Ingenieria/Operaciones | Manual de Despliegue Sin Interrupciones para Microservicios
+--------------------------------------------------------------------------------------------
+Comentario de coherencia:
+Coherente y útil operativamente. Ante un problema de rendimiento y falta de índices en PostgreSQL, el recomendador posiciona en los dos primeros lugares otro incidente de base de datos (DOC024, 0.1167) y la Guía Operativa de Indexación SQL (DOC025, 0.0932), que contiene el procedimiento técnico para resolver el incidente.
+
+
+[PRUEBA 3 - Consulta de Texto Libre]
+Entrada (Texto): "Un empleado extravió su teléfono celular personal donde tenía instalado el correo corporativo y la mensajería. ¿Cómo realizamos el borrado remoto y protegemos sus credenciales?"
+--------------------------------------------------------------------------------------------
+Pos.  | ID      | Similitud | Categoría             | Título
+--------------------------------------------------------------------------------------------
+1     | DOC012  | 0.3427    | Politicas/Procesos    | Política de Seguridad para Dispositivos Personales (BYOD)
+2     | DOC008  | 0.0923    | Politicas/Procesos    | Lista de Verificación de Incorporación y Aprovisionamiento TI
+3     | DOC023  | 0.0901    | Soporte/Incidentes    | Ticket TKT-904: Notificaciones de Mensajería No Sincronizan en Celular
+4     | DOC021  | 0.0765    | Soporte/Incidentes    | Ticket TKT-890: Bloqueo Recurrente de Cuenta Tras Cambio de Contraseña
+5     | DOC009  | 0.0434    | Politicas/Procesos    | Procedimiento de Baja de Personal y Devolución de Equipos
+--------------------------------------------------------------------------------------------
+Comentario de coherencia:
+Altamente coherente. A pesar de estar formulada en lenguaje natural, recupera en primer lugar con amplia diferencia (0.3427) la Política de Seguridad para Dispositivos Personales BYOD (DOC012), que regula el borrado remoto y el uso de correo/mensajería en celulares, seguida por soporte móvil (DOC023, DOC021) y gestión de accesos/credenciales (DOC008, DOC009).
