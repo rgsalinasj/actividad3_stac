@@ -253,3 +253,69 @@ def create_corpus(filename: str = "corpus.csv") -> None:
         {
             "id": "DOC025",
             "title": "Guía Operativa de Indexación y Optimización de Consultas SQL",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "Para diagnosticar consultas lentas en PostgreSQL, revise pg_stat_statements y ejecute EXPLAIN ANALYZE "
+                "para identificar escaneos secuenciales en tablas grandes. Cree índices compuestos en columnas de "
+                "filtrado frecuente y ejecute reportes pesados sobre réplicas de lectura."
+            ),
+        },
+        {
+            "id": "DOC026",
+            "title": "Manual de Despliegue Sin Interrupciones para Microservicios",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "Los despliegues en producción deben utilizar actualizaciones graduales con sondas de disponibilidad "
+                "y reversión automática. Monitoree tasas de error HTTP 5xx, memoria de contenedores y latencia del "
+                "API Gateway durante 15 minutos tras liberar cambios."
+            ),
+        },
+        {
+            "id": "DOC027",
+            "title": "Protocolo de Recuperación ante Desastres y Verificación de Respaldos",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "Las bases de datos críticas requieren copias de seguridad cifradas cada noche replicadas en dos "
+                "regiones geográficas. Operaciones debe realizar simulacros mensuales de restauración para validar "
+                "la integridad de los respaldos y el cumplimiento del tiempo objetivo de recuperación."
+            ),
+        },
+        {
+            "id": "DOC028",
+            "title": "Matriz de Clasificación de Severidad y Escalamiento de Incidentes",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "Los incidentes de Severidad 1 que afecten autenticación, VPN o pagos de clientes exigen alertar de "
+                "inmediato al ingeniero de guardia y publicar actualizaciones cada 15 minutos. El análisis de causa "
+                "raíz debe documentarse dentro de las 48 horas posteriores."
+            ),
+        },
+        {
+            "id": "DOC029",
+            "title": "Guía de Diagnóstico de Red Wi-Fi Empresarial y Certificados",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "La red inalámbrica corporativa autentica dispositivos mediante WPA2-Enterprise y RADIUS usando "
+                "certificados digitales. Si una laptop no conecta, verifique la sincronización del reloj del sistema, "
+                "el perfil MDM instalado y la vigencia del certificado raíz interno."
+            ),
+        },
+        {
+            "id": "DOC030",
+            "title": "Configuración de Proxy Inverso y Límites de Tamaño en API Gateway",
+            "category": "Ingenieria/Operaciones",
+            "text": (
+                "El proxy inverso perimetral aplica cifrado TLS, límites de tamaño de petición y control de tasa para "
+                "proteger microservicios. Ajuste client_max_body_size en portales que reciben archivos PDF pesados "
+                "y configure tiempos de espera adecuados para evitar errores 502 y 504."
+            ),
+        },
+    ]
+
+    df = pd.DataFrame(documents)[["id", "title", "text", "category"]]
+    df.to_csv(filename, index=False, encoding="utf-8")
+    print(f"Archivo '{filename}' generado exitosamente con {len(df)} documentos.")
+
+
+if __name__ == "__main__":
+    create_corpus()
